@@ -1,0 +1,6 @@
+build
+.vscode
+Testing
+
+# Not committing it but it does need to be there
+libs/SDL2.dll
