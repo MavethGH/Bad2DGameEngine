@@ -55,7 +55,7 @@ void Sprite::init(float x, float y, float width, float height)
     vertexBufferData[5].position = {blX, blY};
 
     // Make them all green by default
-    for (Vertex v : vertexBufferData)
+    for (Vertex &v : vertexBufferData)
     {
         v.color = {0.0f, 1.0f, 0.0f, 1.0f};
     }
