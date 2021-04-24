@@ -5,4 +5,6 @@ I work on this for fun. Blame Julie for asking me to share it.
 Make sure you have SDL2 installed somewhere. I just used vcpkg. You should also copy SDL2.dll to the libs folder. After that, run CMake, build it, and pray to the machine gods.
 
 #### Notes
-It's called RhythmGame because originally I was going to make just that, and changing the folder name broke something that I can't be bothered to fix at the moment.
+If it's called RhythmGame, that's because originally I was going to make just that, and changing the folder name broke something that I can't be bothered to fix at the moment.
+
+Oh yeah, don't talk to me about the lack of a src folder. I'll get to that eventually.
