@@ -69,8 +69,8 @@ void MainGame::initSystems()
 
     // Having 2 frame buffers helps prevent flickering
     SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
-    // Set background color to blue
-    glClearColor(0.0f, 0.0f, 1.0f, 1.0f);
+    // Set background color to black
+    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
     // Compile and link shaders
     initShaders();
