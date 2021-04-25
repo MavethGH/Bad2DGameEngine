@@ -10,7 +10,8 @@ MainGame::MainGame() :
     _screenHeight(768),
     _gameState(GameState::PLAY),
     _time(0.0f),
-    _timestep(0.01f)
+    _timestep(0.01f),
+    _vao(0)
 {
 
 }
@@ -66,6 +67,10 @@ void MainGame::initSystems()
     {
         fatalError("Could not initialize GLEW.");
     }
+
+    // Needed for indexed draw calls to work, among other things
+    glGenVertexArrays(1, &_vao);
+    glBindVertexArray(_vao);
 
     // Having 2 frame buffers helps prevent flickering
     SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);

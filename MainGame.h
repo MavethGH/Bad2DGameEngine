@@ -34,4 +34,5 @@ class MainGame
         GLSLProgram _colorProgram;
         float _time;
         float _timestep;
+        GLuint _vao;
 };
