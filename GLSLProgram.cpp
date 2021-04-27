@@ -143,9 +143,9 @@ void GLSLProgram::unuse()
     glUseProgram(0);
 }
 
-GLuint GLSLProgram::getUniformLocation(const std::string& uniformName)
+GLint GLSLProgram::getUniformLocation(const std::string& uniformName)
 {
-    GLuint location = glGetUniformLocation(_shaderProgramID, uniformName.c_str());
+    GLint location = glGetUniformLocation(_shaderProgramID, uniformName.c_str());
     if (location == GL_INVALID_INDEX)
     {
         return 0;
