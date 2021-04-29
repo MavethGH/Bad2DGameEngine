@@ -101,7 +101,7 @@ void MainGame::gameLoop()
     }
 }
 
-int MainGame::processInput()
+void MainGame::processInput()
 {
     SDL_Event evnt;
     while (SDL_PollEvent(&evnt))
@@ -110,11 +110,9 @@ int MainGame::processInput()
         {
             case SDL_QUIT:
                 _gameState = GameState::EXIT;
-                return 0;
+                return;
         }
     }
-    // This makes MSVC shut up about control paths
-    return 0;
 }
 
 void MainGame::drawGame()

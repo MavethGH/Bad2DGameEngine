@@ -22,7 +22,7 @@ class MainGame
         void initSystems();
         void initShaders();
         void gameLoop();
-        int processInput();
+        void processInput();
         void drawGame();
         void setUniforms();
 
