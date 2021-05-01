@@ -18,4 +18,5 @@ class Sprite
         float _height;
         GLuint _vboID;
         GLuint _iboID;
+        GLuint _vaoID;
 };

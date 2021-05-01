@@ -3,22 +3,17 @@
 
 #include <cstddef>
 
-Sprite::Sprite() : _vboID(0), _iboID(0)
+Sprite::Sprite() : _vboID(0), _iboID(0), _vaoID(0)
 {
 
 }
 
 Sprite::~Sprite()
 {
-    // Free up space occupied by VBO and IBO
-    if (_vboID)
-    {
-        glDeleteBuffers(1, &_vboID);
-    }
-    if (_iboID)
-    {
-        glDeleteBuffers(1, &_iboID);
-    }
+    // Free up space occupied by buffers
+    if (_vboID) glDeleteBuffers(1, &_vboID);
+    if (_iboID) glDeleteBuffers(1, &_iboID);
+    if (_vaoID) glDeleteBuffers(1, &_vaoID);
 }
 
 void Sprite::init(float x, float y, float width, float height)
@@ -28,17 +23,14 @@ void Sprite::init(float x, float y, float width, float height)
     _width = width;
     _height = height;
 
+    // Create buffer to store Vertex Array Object
+    if (!_vaoID) glGenBuffers(1, &_vaoID);
+
     // Create buffer to store Vertex Buffer Object
-    if (!_vboID)
-    {
-        glGenBuffers(1, &_vboID);
-    }
+    if (!_vboID) glGenBuffers(1, &_vboID);
 
     // Create buffer to store Index Buffer Object
-    if (!_iboID)
-    {
-        glGenBuffers(1, &_iboID);
-    }
+    if (!_iboID) glGenBuffers(1, &_iboID);
 
     // Index Buffer data
     GLuint indices[6] = { 0, 1, 2, 2, 3, 1 };
@@ -57,7 +49,6 @@ void Sprite::init(float x, float y, float width, float height)
     float brX = x + width;
     float brY = y;
 
-
     // OpenGL will read this as 2 triangles, which make a square
     Vertex vertexBufferData[4];
     vertexBufferData[0].position = {tlX, tlY};
@@ -71,10 +62,21 @@ void Sprite::init(float x, float y, float width, float height)
         v.color = {0.0f, 1.0f, 0.0f, 1.0f};
     }
 
+    // Create and bind Vertex Array Object
+    glGenVertexArrays(1, &_vaoID);
+    glBindVertexArray(_vaoID);
+
     // Upload VBO to the GPU
     glBindBuffer(GL_ARRAY_BUFFER, _vboID);
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertexBufferData), vertexBufferData, GL_STATIC_DRAW);
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+    // Position pointer
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, position));
+
+    // Color pointer
+    glEnableVertexAttribArray(1);
+    glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, color));
 
     // Upload IBO to the GPU
     glGenBuffers(1, &_iboID);
@@ -85,23 +87,9 @@ void Sprite::init(float x, float y, float width, float height)
 void Sprite::draw()
 {
     // Setup
-    glBindBuffer(GL_ARRAY_BUFFER, _vboID);
-
-    // Position pointer
-    glEnableVertexAttribArray(0);
-    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, position));
-
-    // Color pointer
-    glEnableVertexAttribArray(1);
-    glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, color));
-
+    glBindVertexArray(_vaoID);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _iboID);
 
     // Draw stuff
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
-
-    // Cleanup
-    glDisableVertexAttribArray(0);
-    glDisableVertexAttribArray(1);
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-
 }
