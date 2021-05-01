@@ -1,7 +1,7 @@
 #include "IOManager.h"
 #include <fstream>
 
-bool IOManager::readFile(std::string& filePath, std::vector<char>& buffer)
+bool IOManager::readFile(const std::string& filePath, std::vector<char>& buffer)
 {
     std::ifstream fileStream(filePath, std::ios::binary);
     if (fileStream.fail())

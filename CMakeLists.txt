@@ -7,7 +7,8 @@ add_executable(${PROJECT_NAME} main.cpp
                                Errors.cpp
                                Sprite.cpp
                                GLSLProgram.cpp
-                               Vertex.h)
+                               Vertex.h
+                               IOManager.cpp)
 
 # Needed for unit testing
 include(CTest)
@@ -19,6 +20,7 @@ list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 find_package(SDL2 REQUIRED)
 find_package(GLEW REQUIRED)
 find_package(OpenGL REQUIRED)
+find_package(sdl2-image CONFIG REQUIRED)
 
 # I was unable to get target_include_directories() to work properly
 include_directories(${SDL2_INCLUDE_DIR} ${GLEW_INCLUDE_DIRS})
