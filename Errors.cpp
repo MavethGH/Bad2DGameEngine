@@ -9,3 +9,11 @@ void fatalError(std::string errorMessage)
     SDL_Quit();
     exit(EXIT_FAILURE);
 }
+
+void errorCallback(GLenum source, GLenum type, GLuint id,
+                   GLenum severity, GLsizei length,
+                   const GLchar* message, const void* userParam)
+{
+    std::cout << "OpenGL Error\n" << "Type - " << type << "\n";
+    std::cout << "Error Message - " << message << std::endl;
+}

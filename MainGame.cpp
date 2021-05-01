@@ -43,6 +43,11 @@ void MainGame::initSystems()
     // May eventually only use a subset of them for performance reasons
     SDL_Init(SDL_INIT_EVERYTHING);
 
+    // Create OpenGL context with debug messages enabled
+    #ifdef _DEBUG_MODE
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, SDL_GL_CONTEXT_DEBUG_FLAG);
+    #endif
+
     _window = SDL_CreateWindow("GameEngine",
                     SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
                     _screenWidth, _screenHeight,
@@ -67,6 +72,11 @@ void MainGame::initSystems()
     {
         fatalError("Could not initialize GLEW.");
     }
+
+    // Set debug callback for OpenGL errors
+    #ifdef _DEBUG_MODE
+    glDebugMessageCallback(errorCallback, nullptr);
+    #endif
 
     // Needed for indexed draw calls to work, among other things
     glGenVertexArrays(1, &_vao);
