@@ -5,6 +5,7 @@
 
 #include "Sprite.h"
 #include "GLSLProgram.h"
+#include "Texture.h"
 
 enum class GameState 
 {
@@ -34,5 +35,5 @@ class MainGame
         GLSLProgram _colorProgram;
         float _time;
         float _timestep;
-        GLuint _vao;
+        Texture* _testTex;
 };

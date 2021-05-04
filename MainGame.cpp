@@ -1,8 +1,9 @@
 #include "MainGame.h"
 #include "Errors.h"
-
 // For debugging
 #include <iostream>
+
+#define _DEBUG_MODE
 
 MainGame::MainGame() : 
     _window(nullptr),
@@ -10,8 +11,7 @@ MainGame::MainGame() :
     _screenHeight(768),
     _gameState(GameState::PLAY),
     _time(0.0f),
-    _timestep(0.01f),
-    _vao(0)
+    _timestep(0.01f)
 {
 
 }
@@ -27,6 +27,11 @@ void MainGame::run()
 
     // Temporary test code
     _testSprite.init(-1.0f, -1.0f, 2.0f, 2.0f);
+
+    // This is a pointer so that it can be constructed here
+    // Otherwise it will be constructed before the program is fully initialized
+    Texture t("../../Assets/uwu.png");
+    _testTex = &t;
 
     // When this returns game is ready to quit
     gameLoop();
@@ -77,10 +82,6 @@ void MainGame::initSystems()
     #ifdef _DEBUG_MODE
     glDebugMessageCallback(errorCallback, nullptr);
     #endif
-
-    // Needed for indexed draw calls to work, among other things
-    glGenVertexArrays(1, &_vao);
-    glBindVertexArray(_vao);
 
     // Having 2 frame buffers helps prevent flickering
     SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
@@ -134,14 +135,19 @@ void MainGame::drawGame()
     // Use color shaders
     _colorProgram.use();
 
+    // Bind texture (temp code; this will be moved to Sprite class)
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, _testTex->id);
+
     // Set Uniform values on the GPU
     setUniforms();
 
     // Temporary test code
     _testSprite.draw();
 
-    // Unbind shaders
+    // Unbind stuff
     _colorProgram.unuse();
+    glBindTexture(GL_TEXTURE_2D, 0);
 
     // Show stuff on the screen
     SDL_GL_SwapWindow(_window);
@@ -149,9 +155,9 @@ void MainGame::drawGame()
 
 void MainGame::setUniforms()
 {
-    GLuint timeLocation = _colorProgram.getUniformLocation("time");
+    GLint timeLocation = _colorProgram.getUniformLocation("time");
     glUniform1f(timeLocation, _time);
 
-    GLuint resLocation = _colorProgram.getUniformLocation("res");
-    glUniform2ui(resLocation, _screenWidth, _screenHeight);
+    GLint textureLocation = _colorProgram.getUniformLocation("textureSampler");
+    glUniform1i(textureLocation, 0);
 }

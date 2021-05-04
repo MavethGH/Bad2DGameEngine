@@ -51,10 +51,18 @@ void Sprite::init(float x, float y, float width, float height)
 
     // OpenGL will read this as 2 triangles, which make a square
     Vertex vertexBufferData[4];
+
     vertexBufferData[0].position = {tlX, tlY};
+    vertexBufferData[0].uv = {0.0f, 1.0f};
+
     vertexBufferData[1].position = {trX, trY};
+    vertexBufferData[1].uv = {1.0f, 1.0f};
+
     vertexBufferData[2].position = {blX, blY};
+    vertexBufferData[2].uv = {0.0f, 0.0f};
+
     vertexBufferData[3].position = {brX, brY};
+    vertexBufferData[3].uv = {1.0f, 0.0f};
 
     // Make them all green by default
     for (Vertex &v : vertexBufferData)
@@ -77,6 +85,10 @@ void Sprite::init(float x, float y, float width, float height)
     // Color pointer
     glEnableVertexAttribArray(1);
     glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, color));
+
+    // UV pointer
+    glEnableVertexAttribArray(2);
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, uv));
 
     // Upload IBO to the GPU
     glGenBuffers(1, &_iboID);

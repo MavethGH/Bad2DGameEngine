@@ -8,7 +8,8 @@ add_executable(${PROJECT_NAME} main.cpp
                                Sprite.cpp
                                GLSLProgram.cpp
                                Vertex.h
-                               IOManager.cpp)
+                               IOManager.cpp
+                               Texture.cpp)
 
 # Needed for unit testing
 include(CTest)
@@ -24,7 +25,7 @@ find_package(sdl2-image CONFIG REQUIRED)
 
 # I was unable to get target_include_directories() to work properly
 include_directories(${SDL2_INCLUDE_DIR} ${GLEW_INCLUDE_DIRS})
-target_link_libraries(${PROJECT_NAME} ${SDL2_LIBRARY} ${GLEW_LIBRARIES} OpenGL::GL)
+target_link_libraries(${PROJECT_NAME} ${SDL2_LIBRARY} ${GLEW_LIBRARIES} OpenGL::GL SDL2::SDL2_image)
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})

@@ -17,4 +17,10 @@ struct Vertex
         float b;
         float a;
     } color;
+
+    struct UVCoords
+    {
+        float u;
+        float v;
+    } uv;
 };
