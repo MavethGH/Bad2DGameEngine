@@ -156,8 +156,8 @@ void MainGame::drawGame()
 void MainGame::setUniforms()
 {
     GLint timeLocation = _colorProgram.getUniformLocation("time");
-    glUniform1f(timeLocation, _time);
+    if (timeLocation) glUniform1f(timeLocation, _time);
 
     GLint textureLocation = _colorProgram.getUniformLocation("textureSampler");
-    glUniform1i(textureLocation, 0);
+    if (textureLocation) glUniform1i(textureLocation, 0);
 }
