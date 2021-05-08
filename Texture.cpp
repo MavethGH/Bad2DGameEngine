@@ -12,20 +12,17 @@ Texture::Texture(SDL_Surface* image)
     init(image);
 }
 
-void Texture::init(SDL_Surface* image)
+void Texture::init(SDL_Surface* tex)
 {
     // Allow direct reading of the image pixels
-    SDL_LockSurface(image);
-
-    // Convert to a format that OpenGL can use
-    // There's plenty of formats that would work here, but ABGR is not one of them
-    SDL_PixelFormat* format = SDL_AllocFormat(SDL_PIXELFORMAT_RGBA8888);
-    SDL_Surface* tex = SDL_ConvertSurface(image, format, 0);
-    SDL_FreeFormat(format);
+    SDL_LockSurface(tex);
 
     // For convenience
     w = tex->w;
     h = tex->h;
+    
+    // Flip image so OpenGL doesn't diplay it upside-down
+    flipSDLSurface(tex);
 
     // Create the OpenGL texture from the loaded image
     glGenTextures(1, &id);
@@ -43,10 +40,34 @@ void Texture::init(SDL_Surface* image)
     glGenerateMipmap(GL_TEXTURE_2D);
 
     // Cleanup
-    SDL_UnlockSurface(image);
+    SDL_UnlockSurface(tex);
 }
 
+// Note: surf is already locked when this is called
+void Texture::flipSDLSurface(SDL_Surface* surf)
+{
+    int pitch = surf->pitch;
+    char* temp = new char[pitch];
+    char* pixels = (char*)surf->pixels;
 
+    // Switch rows
+    for (int i = 0; i < h / 2; ++i)
+    {
+        char* top = pixels + i * pitch;
+        char* bot = pixels + (h - i - 1) * pitch;
+
+        // Top row to temp
+        memcpy(temp, top, pitch);
+        // Bottom row to top
+        memcpy(top, bot, pitch);
+        // Temp (top row) to bottom
+        memcpy(bot, temp, pitch);
+
+
+    }
+    // Don't leak!
+    delete[] temp;
+}
 
 Texture::~Texture()
 {

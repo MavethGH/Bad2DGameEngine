@@ -15,4 +15,5 @@ class Texture
         int h;
     private:
         void init(SDL_Surface* image);
+        void flipSDLSurface(SDL_Surface* surf);
 };
