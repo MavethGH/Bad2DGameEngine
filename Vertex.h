@@ -12,10 +12,10 @@ struct Vertex
 
     struct Color
     {
-        float r;
-        float g;
-        float b;
-        float a;
+        GLubyte r;
+        GLubyte g;
+        GLubyte b;
+        GLubyte a;
     } color;
 
     struct UVCoords

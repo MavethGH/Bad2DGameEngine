@@ -64,10 +64,10 @@ void Sprite::init(float x, float y, float width, float height)
     vertexBufferData[3].position = {brX, brY};
     vertexBufferData[3].uv = {1.0f, 0.0f};
 
-    // Make them all green by default
+    // Make them all white by default
     for (Vertex &v : vertexBufferData)
     {
-        v.color = {0.0f, 1.0f, 0.0f, 1.0f};
+        v.color = {255, 255, 255, 255};
     }
 
     // Create and bind Vertex Array Object
@@ -84,7 +84,7 @@ void Sprite::init(float x, float y, float width, float height)
 
     // Color pointer
     glEnableVertexAttribArray(1);
-    glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, color));
+    glVertexAttribPointer(1, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(Vertex), (void*)offsetof(Vertex, color));
 
     // UV pointer
     glEnableVertexAttribArray(2);
