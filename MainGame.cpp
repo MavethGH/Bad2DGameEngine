@@ -10,8 +10,7 @@ MainGame::MainGame() :
     _screenWidth(1024),
     _screenHeight(768),
     _gameState(GameState::PLAY),
-    _time(0.0f),
-    _timestep(0.01f)
+    _time(0)
 {
 
 }
@@ -101,7 +100,7 @@ void MainGame::gameLoop()
     {
         processInput();
 
-        _time += _timestep;
+        _time = SDL_GetTicks() / 1000.0f;
 
         drawGame();
     }
@@ -153,3 +152,4 @@ void MainGame::setUniforms()
     GLint textureLocation = _colorProgram.getUniformLocation("textureSampler");
     if (textureLocation) glUniform1i(textureLocation, 0);
 }
+

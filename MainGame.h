@@ -6,6 +6,7 @@
 #include "Sprite.h"
 #include "GLSLProgram.h"
 #include "Texture.h"
+#include "FPSCounter.h"
 
 enum class GameState 
 {
@@ -34,5 +35,5 @@ class MainGame
         Sprite _testSprite;
         GLSLProgram _colorProgram;
         float _time;
-        float _timestep;
+        FPSCounter fpsCounter;
 };
