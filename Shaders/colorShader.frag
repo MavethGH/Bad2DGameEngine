@@ -16,9 +16,11 @@ void main()
     vec4 textureColor = texture(textureSampler, fragmentUv);
 
     // Wacky colors
-    float r = fragmentColor.r + (cos(fragmentPos.x + time) * 0.1);
-    float g = fragmentColor.g + (cos(fragmentPos.y + time) * 0.1);
-    float b = fragmentColor.b + (cos(fragmentPos.x + time) * 0.1);
- 
-    color = vec4(r, g, b, fragmentColor.a) * textureColor;
+    /*
+    float r = fragmentColor.r * (cos(fragmentPos.x * 4.0 + time) + 1.0) * 0.5;
+    float g = fragmentColor.g * (cos(fragmentPos.y * 8.0 + time) + 1.0) * 0.5;
+    float b = fragmentColor.b * (cos(fragmentPos.x * 2.0 + time) + 1.0) * 0.5;
+    color = vec4(r, g, b, fragmentColor.a) / textureColor;
+    */
+    color = textureColor;
 }

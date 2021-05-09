@@ -26,12 +26,7 @@ void MainGame::run()
     initSystems();
 
     // Temporary test code
-    _testSprite.init(-1.0f, -1.0f, 2.0f, 2.0f);
-
-    // This is a pointer so that it can be constructed here
-    // Otherwise it will be constructed before the program is fully initialized
-    Texture t("../../Assets/uwu.png");
-    _testTex = &t;
+    _testSprite.init(-1.0f, -1.0f, 2.0f, 2.0f, "../../Assets/uwu.png");
 
     // When this returns game is ready to quit
     gameLoop();
@@ -135,19 +130,16 @@ void MainGame::drawGame()
     // Use color shaders
     _colorProgram.use();
 
-    // Bind texture (temp code; this will be moved to Sprite class)
-    glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, _testTex->id);
-
     // Set Uniform values on the GPU
     setUniforms();
+
+    glActiveTexture(GL_TEXTURE0);
 
     // Temporary test code
     _testSprite.draw();
 
     // Unbind stuff
     _colorProgram.unuse();
-    glBindTexture(GL_TEXTURE_2D, 0);
 
     // Show stuff on the screen
     SDL_GL_SwapWindow(_window);

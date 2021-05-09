@@ -1,6 +1,8 @@
 #pragma once
 
 #include <GL/glew.h>
+#include <string>
+#include "Texture.h"
 
 class Sprite
 {
@@ -8,7 +10,7 @@ class Sprite
         Sprite();
         ~Sprite();
 
-        void init(float x, float y, float width, float height);
+        void init(float x, float y, float width, float height, std::string texturePath);
         void draw();
 
     private:
@@ -19,4 +21,5 @@ class Sprite
         GLuint _vboID;
         GLuint _iboID;
         GLuint _vaoID;
+        Texture* texture;
 };

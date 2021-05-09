@@ -1,5 +1,6 @@
 #include "Sprite.h"
 #include "Vertex.h"
+#include "ResourceManager.h"
 
 #include <cstddef>
 
@@ -16,12 +17,13 @@ Sprite::~Sprite()
     if (_vaoID) glDeleteBuffers(1, &_vaoID);
 }
 
-void Sprite::init(float x, float y, float width, float height)
+void Sprite::init(float x, float y, float width, float height, std::string texturePath)
 {
     _x = x;
     _y = y;
     _width = width;
     _height = height;
+    texture = ResourceManager::texCache->getTexture(texturePath);
 
     // Create buffer to store Vertex Array Object
     if (!_vaoID) glGenBuffers(1, &_vaoID);
@@ -98,6 +100,12 @@ void Sprite::init(float x, float y, float width, float height)
 
 void Sprite::draw()
 {
+    // Check if texture is already bound
+    if (texture->id != ResourceManager::boundTexture) {
+        glBindTexture(GL_TEXTURE_2D, texture->id);
+        ResourceManager::boundTexture = texture->id;
+    }
+
     // Setup
     glBindVertexArray(_vaoID);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _iboID);

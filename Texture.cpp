@@ -62,14 +62,7 @@ void Texture::flipSDLSurface(SDL_Surface* surf)
         memcpy(top, bot, pitch);
         // Temp (top row) to bottom
         memcpy(bot, temp, pitch);
-
-
     }
     // Don't leak!
     delete[] temp;
-}
-
-Texture::~Texture()
-{
-
 }

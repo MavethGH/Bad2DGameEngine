@@ -9,7 +9,9 @@ add_executable(${PROJECT_NAME} main.cpp
                                GLSLProgram.cpp
                                Vertex.h
                                IOManager.cpp
-                               Texture.cpp)
+                               Texture.cpp
+                               TextureCache.cpp
+                               ResourceManager.cpp)
 
 # Needed for unit testing
 include(CTest)
