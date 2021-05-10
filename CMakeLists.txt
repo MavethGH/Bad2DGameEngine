@@ -11,7 +11,9 @@ add_executable(${PROJECT_NAME} main.cpp
                                IOManager.cpp
                                Texture.cpp
                                TextureCache.cpp
-                               ResourceManager.cpp)
+                               ResourceManager.cpp
+                               FPSCounter.cpp
+                               FontManager.cpp)
 
 # Needed for unit testing
 include(CTest)
@@ -23,11 +25,17 @@ list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 find_package(SDL2 REQUIRED)
 find_package(GLEW REQUIRED)
 find_package(OpenGL REQUIRED)
+find_package(Freetype REQUIRED)
 find_package(sdl2-image CONFIG REQUIRED)
 
 # I was unable to get target_include_directories() to work properly
 include_directories(${SDL2_INCLUDE_DIR} ${GLEW_INCLUDE_DIRS})
-target_link_libraries(${PROJECT_NAME} ${SDL2_LIBRARY} ${GLEW_LIBRARIES} OpenGL::GL SDL2::SDL2_image)
+target_link_libraries(${PROJECT_NAME}
+                      ${SDL2_LIBRARY}
+                      ${GLEW_LIBRARIES}
+                      OpenGL::GL
+                      SDL2::SDL2_image
+                      ${FREETYPE_LIBRARY})
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})

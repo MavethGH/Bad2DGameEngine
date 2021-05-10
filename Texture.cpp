@@ -12,6 +12,43 @@ Texture::Texture(SDL_Surface* image)
     init(image);
 }
 
+Texture::Texture(FT_Bitmap* image)
+{
+    // Bitmap glyph image is tightly packed
+    glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+
+    // Create the OpenGL texture
+    glGenTextures(1, &id);
+    glBindTexture(GL_TEXTURE_2D, id);
+
+    // Using immutable texture storage, since it is recommended when not using mipmaps
+    glTexStorage2D(
+        GL_TEXTURE_2D,
+        1,
+        GL_RED,
+        image->width,
+        image->rows
+        );
+
+    glTexSubImage2D(
+        GL_TEXTURE_2D,
+        0,
+        0,
+        0,
+        image->width,
+        image->rows,
+        GL_RED,
+        GL_UNSIGNED_BYTE,
+        image->buffer
+        );
+
+    // Texture Params
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+}
+
 void Texture::init(SDL_Surface* tex)
 {
     // Allow direct reading of the image pixels
